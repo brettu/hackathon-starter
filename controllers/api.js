@@ -15,7 +15,7 @@ const lob = require('lob')(process.env.LOB_KEY);
 const ig = require('instagram-node').instagram();
 
 const mandrill = require('mandrill-api/mandrill');
-const mandrill_client = new mandrill.Mandrill('YOUR_API_KEY');
+const mandrillClient = new mandrill.Mandrill('d58e197fb57e8424d4ee931660ecf4a0-us18');
 
 const { Venues, Users } = require('node-foursquare')({
   secrets: {
@@ -45,14 +45,14 @@ exports.getApi = (req, res) => {
  *
 **/
 exports.postMandrill = async (req, res, next) => {
-  const github = new GitHub();
   try {
-    const { data: repo } = await github.repos.get({ owner: 'sahat', repo: 'hackathon-starter' });
-    res.render('api/mandrill', {
-      title: 'Mandrill API',
-      repo
+    mandrillClient.users.info({}, function(result) {
+      console.log(result); 
     });
   } catch (error) {
+    // Mandrill returns the error as an object with name and message keys
+    // A mandrill error occurred: Invalid_Key - Invalid API key
+    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
     next(error);
   }
 };
