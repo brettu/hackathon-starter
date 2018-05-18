@@ -33,8 +33,8 @@ exports.postSendgrid = async (req, res, next) => {
       html: '<strong>and easy to do anywhere, even with Node.js</strong>',
     };
     sgMail.send(msg);
-    res.render('api/index', {
-      title: 'API Examples'
+    res.render('home', {
+      title: 'Home'
     });
   } catch (error) {
     console.log('An error occurred: ' + e.name + ' - ' + e.message);
