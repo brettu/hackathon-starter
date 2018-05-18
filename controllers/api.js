@@ -13,6 +13,10 @@ const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const paypal = require('paypal-rest-sdk');
 const lob = require('lob')(process.env.LOB_KEY);
 const ig = require('instagram-node').instagram();
+
+const mandrill = require('mandrill-api/mandrill');
+const mandrill_client = new mandrill.Mandrill('YOUR_API_KEY');
+
 const { Venues, Users } = require('node-foursquare')({
   secrets: {
     clientId: process.env.FOURSQUARE_ID,
@@ -33,6 +37,24 @@ exports.getApi = (req, res) => {
   res.render('api/index', {
     title: 'API Examples'
   });
+};
+
+/**
+ * POST /api/mandrill
+ * Mandrill API example
+ *
+**/
+exports.postMandrill = async (req, res, next) => {
+  const github = new GitHub();
+  try {
+    const { data: repo } = await github.repos.get({ owner: 'sahat', repo: 'hackathon-starter' });
+    res.render('api/mandrill', {
+      title: 'Mandrill API',
+      repo
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**

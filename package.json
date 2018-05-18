@@ -15,6 +15,7 @@
     "lint": "eslint **/*.js"
   },
   "dependencies": {
+    "mandrill-api": "^1.0.45",
     "@ladjs/bootstrap-social": "^7.0.2",
     "@octokit/rest": "^15.4.0",
     "bcrypt-nodejs": "^0.0.3",
