@@ -63,7 +63,7 @@ exports.postMandrill = async (req, res, next) => {
         },
         "important": false,
         "tracking_domain": null,
-        "signing_domain": null
+        "signing_domain": 'tdflabs.com'
     };
     var async = false;
     var ip_pool = "Main Pool";
