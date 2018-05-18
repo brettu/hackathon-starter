@@ -15,7 +15,7 @@ const lob = require('lob')(process.env.LOB_KEY);
 const ig = require('instagram-node').instagram();
 
 const mandrill = require('mandrill-api/mandrill');
-const mandrillClient = new mandrill.Mandrill('d58e197fb57e8424d4ee931660ecf4a0-us18');
+const mandrillClient = new mandrill.Mandrill('D_TW1DSvJMapGBPK5-1IHg');
 
 const { Venues, Users } = require('node-foursquare')({
   secrets: {
@@ -46,9 +46,39 @@ exports.getApi = (req, res) => {
 **/
 exports.postMandrill = async (req, res, next) => {
   try {
-    mandrillClient.users.info({}, function(result) {
-      console.log(result); 
-    });
+
+    var message = {
+        "html": "<p>Thank you for letting us spam you</p>",
+        "text": "Thank for letting us spam you",
+        "subject": "Test email from Mandrill",
+        "from_email": "info@thedevelopmentfactory.com",
+        "from_name": "TDF Team",
+        "to": [{
+                "email": "brett@thedevelopmentfactory.com",
+                "name": "Brett Ulrich",
+                "type": "to"
+            }],
+        "headers": {
+            "Reply-To": "no-reply@thedevelopmentfactory.com"
+        },
+        "important": false,
+        "tracking_domain": null,
+        "signing_domain": null
+    };
+    var async = false;
+    var ip_pool = "Main Pool";
+    var send_at = "example send_at";
+    //mandrill_client.messages.send({"message": message, "async": async, "ip_pool": ip_pool, "send_at": send_at}, function(result) {
+    mandrillClient.messages.send({"message": message, "async": async}, function(result) {
+    console.log(result);
+  }, function(e) {
+    // Mandrill returns the error as an object with name and message keys
+    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+    // A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+});
+
+
+
   } catch (error) {
     // Mandrill returns the error as an object with name and message keys
     // A mandrill error occurred: Invalid_Key - Invalid API key
