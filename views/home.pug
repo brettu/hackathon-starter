@@ -1,16 +1,15 @@
 extends layout
 
 block content
-  h1 Spammer the Email Bot
+  h1 TDF Email Bot
   p.lead Send emails onclicks
   hr
   .row
     .col-md-6
       h2 Instructions   
-      p Configure the button below to trigger an api request to the Mandril system. You will need to add and configure the Mandrill library in the application. Then hook up the following button to an api request in the Mandrill system.  
+      p Configure the button below to trigger an api request with the email system.
       p
-        a(href='/api/mandrill', style='color: #fff')
-          .card(style='background-color: #000').mb-3
+        a(href='/api/sendgrid', style='color: #fff')
+          .card(style='background-color: #fff').mb-3
             .card-body
-              img(src='https://www.evernote.com/l/AB7HvSBdGstEo7zVNSgGhJSlMeASIBJ2r4kB/image.png', height=40)
-              //|  Mandrill
+              img(src='https://www.evernote.com/l/AB7gRMbzVrlFlbg5H_Poylv7FFTft1J1OQMB/image.png', height=40)

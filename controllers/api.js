@@ -14,8 +14,33 @@ const paypal = require('paypal-rest-sdk');
 const lob = require('lob')(process.env.LOB_KEY);
 const ig = require('instagram-node').instagram();
 
-const mandrill = require('mandrill-api/mandrill');
-const mandrillClient = new mandrill.Mandrill('D_TW1DSvJMapGBPK5-1IHg');
+// using SendGrid's v3 Node.js Library
+// https://github.com/sendgrid/sendgrid-nodejs
+const sgMail = require('@sendgrid/mail');
+/**
+ * POST /api/sendgrid
+ * Sendgrid
+ *
+**/
+exports.postSendgrid = async (req, res, next) => {
+  try {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: 'brett@thedevelopmentfactory.com',
+      from: 'info@thedevelopmentfactory.com',
+      subject: 'Sending with SendGrid is Fun',
+      text: 'and easy to do anywhere, even with Node.js',
+      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    };
+    sgMail.send(msg);
+    res.render('api/index', {
+      title: 'API Examples'
+    });
+  } catch (error) {
+    console.log('An error occurred: ' + e.name + ' - ' + e.message);
+    next(error);
+  }
+};
 
 const { Venues, Users } = require('node-foursquare')({
   secrets: {
@@ -37,54 +62,6 @@ exports.getApi = (req, res) => {
   res.render('api/index', {
     title: 'API Examples'
   });
-};
-
-/**
- * POST /api/mandrill
- * Mandrill API example
- *
-**/
-exports.postMandrill = async (req, res, next) => {
-  try {
-
-    var message = {
-        "html": "<p>Thank you for letting us spam you</p>",
-        "text": "Thank for letting us spam you",
-        "subject": "Test email from Mandrill",
-        "from_email": "info@thedevelopmentfactory.com",
-        "from_name": "TDF Team",
-        "to": [{
-                "email": "brett@thedevelopmentfactory.com",
-                "name": "Brett Ulrich",
-                "type": "to"
-            }],
-        "headers": {
-            "Reply-To": "no-reply@thedevelopmentfactory.com"
-        },
-        "important": false,
-        "tracking_domain": null,
-        "signing_domain": 'tdflabs.com'
-    };
-    var async = false;
-    var ip_pool = "Main Pool";
-    var send_at = "example send_at";
-    //mandrill_client.messages.send({"message": message, "async": async, "ip_pool": ip_pool, "send_at": send_at}, function(result) {
-    mandrillClient.messages.send({"message": message, "async": async}, function(result) {
-    console.log(result);
-  }, function(e) {
-    // Mandrill returns the error as an object with name and message keys
-    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-    // A mandrill error occurred: Unknown_Subaccount - No subaccount exists with the id 'customer-123'
-});
-
-
-
-  } catch (error) {
-    // Mandrill returns the error as an object with name and message keys
-    // A mandrill error occurred: Invalid_Key - Invalid API key
-    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-    next(error);
-  }
 };
 
 /**
